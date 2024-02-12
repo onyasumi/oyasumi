@@ -15,6 +15,11 @@ class MainFormVM {
     val headers: ArrayList<Header> = ArrayList()
     val headersVersionLock: MutableStateFlow<Int> = MutableStateFlow(1)
 
+    var isJson: Boolean = false
+    var allowSelfSigned: Boolean = false
+    var verbose: Boolean = true
+
+
     val addHeader = {
         headers.add(Header())
         headersVersionLock.value += 1

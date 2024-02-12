@@ -1,7 +1,11 @@
 package model
 
-enum class HTTPRequestType {
+enum class HTTPRequestType(val flag: String) {
 
-    GET, POST, PUT, PATCH, DELETE
+    GET("-XGET"),
+    POST("-XPOST"),
+    PUT("-XPUT"),
+    PATCH("-XPATCH"),
+    DELETE("-XDELETE")
 
 }

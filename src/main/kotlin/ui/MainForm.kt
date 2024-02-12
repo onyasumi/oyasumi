@@ -123,9 +123,10 @@ fun MainForm(vm: MainFormVM) {
 
                     Row(Modifier.padding(6.dp, 0.dp, 0.dp, 0.dp)) {
 
-                        var isJson by remember { mutableStateOf(false) }
+                        var isJson by remember { mutableStateOf(vm.isJson) }
                         Checkbox(checked = isJson, onCheckedChange = {
                             isJson = it
+                            vm.isJson = it
                         })
 
                         Text(text ="Set Content-type to application/json", fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 2.dp).align(Alignment.CenterVertically))
@@ -134,9 +135,10 @@ fun MainForm(vm: MainFormVM) {
 
                     Row(Modifier.padding(6.dp, 0.dp, 0.dp, 0.dp)) {
 
-                        var allowInsecure by remember { mutableStateOf(false) }
+                        var allowInsecure by remember { mutableStateOf(vm.allowSelfSigned) }
                         Checkbox(checked = allowInsecure, onCheckedChange = {
                             allowInsecure = it
+                            vm.allowSelfSigned = it
                         })
 
                         Text(text ="Allow self-signed certificates", fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 2.dp).align(Alignment.CenterVertically))
@@ -145,9 +147,10 @@ fun MainForm(vm: MainFormVM) {
 
                     Row(Modifier.padding(6.dp, 0.dp, 0.dp, 0.dp)) {
 
-                        var isVerbose by remember { mutableStateOf(false) }
+                        var isVerbose by remember { mutableStateOf(vm.verbose) }
                         Checkbox(checked = isVerbose, onCheckedChange = {
                             isVerbose = it
+                            vm.verbose = it
                         })
 
                         Text(text ="Verbose", fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 2.dp).align(Alignment.CenterVertically))
