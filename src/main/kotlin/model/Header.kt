@@ -15,3 +15,7 @@ var Header.key: String
 var Header.value: String
     get() = this.second
     set(value) { this.second = value }
+
+fun Header.isNotBlank(): Boolean {
+    return (this.key.isNotBlank() && this.value.isNotBlank())
+}

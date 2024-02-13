@@ -34,6 +34,7 @@ fun MainForm(vm: MainFormVM) {
                             DropdownItem(HTTPRequestType.PATCH),
                             DropdownItem(HTTPRequestType.DELETE)
                         ),
+                        onValueChange = vm.onRequestMethodChanged,
                         selectedValue = vm.requestMethod,
                         label = "HTTP Method"
                     )
@@ -73,7 +74,7 @@ fun MainForm(vm: MainFormVM) {
                                 var key by remember { mutableStateOf(header.key) }
                                 TextField(value = key,
                                     onValueChange = {
-                                        header.key = it
+                                        vm.modHeader(header, key = it)
                                         key = it
                                     },
                                     label = { Text("Header Key") },
@@ -86,7 +87,7 @@ fun MainForm(vm: MainFormVM) {
                                 var value by remember { mutableStateOf(header.value) }
                                 TextField(value = value,
                                     onValueChange = {
-                                        header.value = it
+                                        vm.modHeader(header, value = it)
                                         value = it
                                     },
                                     label = { Text("Header Value") },
@@ -165,7 +166,7 @@ fun MainForm(vm: MainFormVM) {
 
                     Divider(Modifier.padding(15.dp, 10.dp, 15.dp, 5.dp))
 
-                    TextField(value = "Sample Text",
+                    TextField(value = vm.curlCommand.collectAsState().value,
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("cURL output") },

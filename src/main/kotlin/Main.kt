@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import model.RequestModel
 import ui.MainForm
 import ui.MainFormVM
 
@@ -13,7 +14,9 @@ import ui.MainFormVM
 fun App() {
     MaterialTheme {
 
-        MainForm(MainFormVM())
+        val request = RequestModel()
+
+        MainForm(MainFormVM(request))
 
     }
 }

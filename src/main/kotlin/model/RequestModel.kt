@@ -1,6 +1,6 @@
 package model
 
-class CurlBuilder {
+class RequestModel {
 
     var requestMethod: HTTPRequestType = HTTPRequestType.POST
 
@@ -13,7 +13,7 @@ class CurlBuilder {
     var allowSelfSigned: Boolean = false
     var verbose: Boolean = true
 
-
+    // Creates curl command
     fun buildCurl(): String {
 
         val command: MutableList<String> = ArrayList()
@@ -30,7 +30,7 @@ class CurlBuilder {
 
         // Add custom headers
         for(header in headers) {
-            command.add("-H \'${header.key}: ${header.value}")
+            if(header.isNotBlank()) command.add("-H \'${header.key}: ${header.value}\'")
         }
 
         // Add JSON content type

@@ -1,33 +1,76 @@
 package ui
 
-import model.HTTPRequestType
+import components.DropdownItem
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.Header
+import model.*
 
 
-class MainFormVM {
+class MainFormVM(private val request: RequestModel) {
 
     val requestMethod: MutableStateFlow<HTTPRequestType> = MutableStateFlow(HTTPRequestType.POST)
+    val onRequestMethodChanged: (DropdownItem<HTTPRequestType>) -> Unit = { type: DropdownItem<HTTPRequestType> ->
+        request.requestMethod = type.value
+        buildCurl()
+    }
 
-    var url: String = ""
-    var body: String = ""
+    var url: String
+        get() = request.url
+        set(value) {
+            request.url = value
+            buildCurl()
+        }
 
-    val headers: ArrayList<Header> = ArrayList()
+    var body: String
+        get() = request.body
+        set(value) {
+            request.body = value
+            buildCurl()
+        }
+
+    var isJson: Boolean
+        get() = request.isJson
+        set(value) {
+            request.isJson = value
+            buildCurl()
+        }
+    var allowSelfSigned: Boolean
+        get() = request.allowSelfSigned
+        set(value) {
+            request.allowSelfSigned = value
+            buildCurl()
+        }
+    var verbose: Boolean
+        get() = request.verbose
+        set(value) {
+            request.verbose = value
+            buildCurl()
+        }
+
     val headersVersionLock: MutableStateFlow<Int> = MutableStateFlow(1)
-
-    var isJson: Boolean = false
-    var allowSelfSigned: Boolean = false
-    var verbose: Boolean = true
-
+    val headers: List<Header> = request.headers
 
     val addHeader = {
-        headers.add(Header())
+        request.headers.add(Header())
         headersVersionLock.value += 1
+        buildCurl()
+    }
+
+    fun modHeader(header: Header, key: String? = null, value: String? = null) {
+        if(key != null) header.key = key
+        if(value != null) header.value = value
+        buildCurl()
     }
 
     fun deleteHeader(header: Header) {
-        headers.remove(header)
+        request.headers.remove(header)
         headersVersionLock.value += 1
+        buildCurl()
+    }
+
+    val curlCommand: MutableStateFlow<String> = MutableStateFlow(request.buildCurl())
+
+    private fun buildCurl() {
+        curlCommand.value = request.buildCurl()
     }
 
 }
