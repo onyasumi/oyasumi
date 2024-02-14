@@ -7,6 +7,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.Dropdown
@@ -178,7 +180,10 @@ fun MainForm(vm: MainFormVM) {
 
                     Row(Modifier.padding(20.dp)) {
 
-                        Button(onClick = {},
+                        val clipboardManager = LocalClipboardManager.current
+                        Button(onClick = {
+                            clipboardManager.setText(AnnotatedString(vm.curlCommand.value))
+                        },
                             modifier = Modifier.weight(1f)) {
                             Text("Copy Command")
                         }
