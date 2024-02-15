@@ -83,7 +83,14 @@ class MainFormVM(private val request: RequestModel) {
         requestResult.value = "Loading..."
 
         CoroutineScope(Dispatchers.IO).launch {
-            requestResult.value = request.sendRequest()
+
+            try {
+                requestResult.value = request.sendRequest()
+            } catch (cause: Throwable) {
+                requestResult.value = cause.toString()
+            }
+
+
         }
 
     }

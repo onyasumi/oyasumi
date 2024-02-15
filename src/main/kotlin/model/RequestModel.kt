@@ -72,7 +72,13 @@ class RequestModel {
 
         val client = HttpClient()
 
-        val response: HttpResponse = client.get(requestBuilder)
+        val response: HttpResponse = when(requestMethod) {
+            HTTPRequestType.POST -> client.post(requestBuilder)
+            HTTPRequestType.GET -> client.get(requestBuilder)
+            HTTPRequestType.PUT -> client.put(requestBuilder)
+            HTTPRequestType.PATCH -> client.patch(requestBuilder)
+            HTTPRequestType.DELETE -> client.delete(requestBuilder)
+        }
         val text: ArrayList<String> = ArrayList()
 
         text.add("$requestMethod $urlString")
