@@ -61,8 +61,20 @@ fun MainForm(vm: MainFormVM) {
                         label = { Text("Body") },
                         singleLine = false,
                         minLines = 5,
-                        modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 20.dp).fillMaxWidth()
+                        modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 10.dp).fillMaxWidth()
                     )
+
+                    Row(Modifier.padding(6.dp, 0.dp, 0.dp, 10.dp)) {
+
+                        var isJson by remember { mutableStateOf(vm.isJson) }
+                        Checkbox(checked = isJson, onCheckedChange = {
+                            isJson = it
+                            vm.isJson = it
+                        })
+
+                        Text(text ="Set Content-type to application/json", fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 2.dp).align(Alignment.CenterVertically))
+
+                    }
 
                     val headerVersionVM by vm.headersVersionLock.collectAsState()
                     var headersVersionLock by remember { mutableIntStateOf(0) }
@@ -109,7 +121,6 @@ fun MainForm(vm: MainFormVM) {
 
                         }
 
-
                     }
 
                     if(headersVersionLock != headerVersionVM) {
@@ -124,17 +135,13 @@ fun MainForm(vm: MainFormVM) {
                         Text("Add Custom Header")
                     }
 
-                    Row(Modifier.padding(6.dp, 0.dp, 0.dp, 0.dp)) {
+                    Spacer(Modifier.weight(1f))
 
-                        var isJson by remember { mutableStateOf(vm.isJson) }
-                        Checkbox(checked = isJson, onCheckedChange = {
-                            isJson = it
-                            vm.isJson = it
-                        })
+                }
 
-                        Text(text ="Set Content-type to application/json", fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 2.dp).align(Alignment.CenterVertically))
+                Column(Modifier.height(IntrinsicSize.Min)) {
 
-                    }
+                    Divider(Modifier.padding(15.dp, 10.dp, 15.dp, 5.dp))
 
                     Row(Modifier.padding(6.dp, 0.dp, 0.dp, 0.dp)) {
 
@@ -160,14 +167,6 @@ fun MainForm(vm: MainFormVM) {
 
                     }
 
-                    Spacer(Modifier.weight(1f))
-
-                }
-
-                Column(Modifier.height(IntrinsicSize.Min)) {
-
-                    Divider(Modifier.padding(15.dp, 10.dp, 15.dp, 5.dp))
-
                     TextField(value = vm.curlCommand.collectAsState().value,
                         onValueChange = {},
                         readOnly = true,
@@ -175,7 +174,7 @@ fun MainForm(vm: MainFormVM) {
                         singleLine = false,
                         minLines = 5,
                         maxLines = 5,
-                        modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp).fillMaxWidth()
+                        modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 0.dp).fillMaxWidth()
                     )
 
                     Row(Modifier.padding(20.dp)) {

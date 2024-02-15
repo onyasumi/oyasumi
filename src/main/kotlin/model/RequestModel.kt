@@ -1,7 +1,6 @@
 package model
 
 import io.ktor.client.*
-import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 
@@ -62,22 +61,32 @@ class RequestModel {
         val requestBuilder = HttpRequestBuilder().apply {
 
             url(urlString)
-
-            expectSuccess = true
             setBody(body)
 
             if(isJson) header("Content-type", "application/json")
-            for(h in headerList) header(h.key, h.value)
+            for(h in headerList) {
+                if(h.isNotBlank()) header(h.key, h.value)
+            }
+
         }
 
         val client = HttpClient()
 
         val response: HttpResponse = client.get(requestBuilder)
-        val body: String = response.bodyAsText()
+        val text: ArrayList<String> = ArrayList()
+
+        text.add("$requestMethod $urlString")
+        text.add(response.status.toString())
+        text.add("")
+
+        text.add(response.headers.toString())
+
+        text.add("")
+        text.add(response.bodyAsText())
 
         client.close()
 
-        return body
+        return text.joinToString("\n")
 
     }
 
