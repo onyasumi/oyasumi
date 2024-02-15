@@ -190,7 +190,7 @@ fun MainForm(vm: MainFormVM) {
 
                         Spacer(Modifier.width(20.dp))
 
-                        Button(onClick = {},
+                        Button(onClick = vm.sendResult,
                             modifier = Modifier.weight(1f)) {
                             Text("Send Request")
                         }
@@ -203,7 +203,8 @@ fun MainForm(vm: MainFormVM) {
 
             Divider(Modifier.width(1.dp).fillMaxHeight())
 
-            TextField(value = "Sample Text",
+            val requestResult by vm.requestResult.collectAsState()
+            TextField(value = requestResult,
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Response") },

@@ -1,7 +1,10 @@
 package ui
 
 import components.DropdownItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import model.*
 
 
@@ -14,9 +17,9 @@ class MainFormVM(private val request: RequestModel) {
     }
 
     var url: String
-        get() = request.url
+        get() = request.urlString
         set(value) {
-            request.url = value
+            request.urlString = value
             buildCurl()
         }
 
@@ -47,10 +50,10 @@ class MainFormVM(private val request: RequestModel) {
         }
 
     val headersVersionLock: MutableStateFlow<Int> = MutableStateFlow(1)
-    val headers: List<Header> = request.headers
+    val headers: List<Header> = request.headerList
 
     val addHeader = {
-        request.headers.add(Header())
+        request.headerList.add(Header())
         headersVersionLock.value += 1
         buildCurl()
     }
@@ -62,7 +65,7 @@ class MainFormVM(private val request: RequestModel) {
     }
 
     fun deleteHeader(header: Header) {
-        request.headers.remove(header)
+        request.headerList.remove(header)
         headersVersionLock.value += 1
         buildCurl()
     }
@@ -71,6 +74,18 @@ class MainFormVM(private val request: RequestModel) {
 
     private fun buildCurl() {
         curlCommand.value = request.buildCurl()
+    }
+
+    val requestResult: MutableStateFlow<String> = MutableStateFlow("")
+
+    val sendResult: () -> Unit = {
+
+        requestResult.value = "Loading..."
+
+        CoroutineScope(Dispatchers.IO).launch {
+            requestResult.value = request.sendRequest()
+        }
+
     }
 
 }
