@@ -7,7 +7,7 @@
 
 [![GPLv2](https://img.shields.io/badge/license-GPLv2-green)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html#SEC1)
 
-![screenshot](https://github.com/onyasumi/oyasumi/blob/master/screenshots/screenshot.png?raw=true)
+![screenshot](https://github.com/onyasumi/oyasumi/blob/master/screenshot.png?raw=true)
 
 </div>
 
